@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.name }} | Culinary Delights</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #475569;
+            --accent-color: #dc2626;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .recipe-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/images/header-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 6rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .auth-buttons {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .auth-link {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .login-link {
+            background-color: #16a34a;
+        }
+
+        .logout-link {
+            background-color: #dc2626;
+        }
+
+        .logout-link:hover {
+            background-color: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        .welcome-text {
+            color: white;
+            margin-right: 1rem;
+            font-weight: 500;
+        }
+
+        .recipe-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .recipe-container {
+            max-width: 1000px;
+            margin: -3rem auto 0;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .recipe-meta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .meta-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .meta-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .meta-item h3 {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .content-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            margin-top: 0;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .difficulty {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .difficulty::before {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .Easy {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .Easy::before {
+            content: '👨‍🍳';
+        }
+
+        .Medium {
+            background: linear-gradient(135deg, #eab308, #ca8a04);
+            color: white;
+        }
+
+        .Medium::before {
+            content: '👨‍🍳👨‍🍳';
+        }
+
+        .Hard {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+        }
+
+        .Hard::before {
+            content: '👨‍🍳👨‍🍳👨‍🍳';
+        }
+
+        .ingredients-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link:hover {
+            background-color: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .recipe-meta {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .recipe-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .auth-buttons {
+                position: relative;
+                justify-content: center;
+                padding: 1rem;
+                right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="recipe-header">
+        <div class="auth-buttons">
+            {% if user.is_authenticated %}
+            <span class="welcome-text">Welcome, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" class="auth-link logout-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
+                Logout
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}" class="auth-link login-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                    </path>
+                </svg>
+                Login
+            </a>
+            {% endif %}
+        </div>
+        <h1>{{ recipe.name }}</h1>
+    </div>
+
+    <div class="recipe-container">
+        {% if user.is_authenticated %}
+        <div class="recipe-meta">
+            <div class="meta-item">
+                <h3>Preparation Time</h3>
+                <p>{{ recipe.cooking_time }} minutes</p>
+            </div>
+            <div class="meta-item">
+                <h3>Skill Level</h3>
+                <span class="difficulty {{ difficulty }}">{{ difficulty }}</span>
+            </div>
+            <div class="meta-item">
+                <h3>Ingredients Count</h3>
+                <p>{{ recipe.ingredients.count }} items</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>About This Recipe</h2>
+            <p>{{ recipe.description }}</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Ingredients</h2>
+            <ul class="ingredients-list">
+                {% for ingredient in recipe.ingredients.all %}
+                <li>
+                    <span>{{ ingredient.name }}</span>
+                    <span>{{ ingredient.quantity }} {{ ingredient.unit }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="button-container">
+            <a href="{% url 'recipe-list' %}" class="back-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Recipe Collection
+            </a>
+        </div>
+        {% else %}
+        <div class="content-section">
+            <h2>Please Login</h2>
+            <p>You need to be logged in to view this recipe's details.</p>
+            <div class="button-container">
+                <a href="{% url 'login' %}" class="back-link" style="background-color: #16a34a;">
+                    Login to View Recipe
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

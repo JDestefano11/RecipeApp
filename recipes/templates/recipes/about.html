@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me | Recipe App Developer</title>
+    <style>
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            background: #1e3a8a;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #1e40af;
+        }
+
+        .skills-section {
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="about-container">
+        <div class="profile-section">
+            <h1>{{ name }}</h1>
+            <p>Full Stack Developer | Recipe App Creator</p>
+        </div>
+
+        <div class="social-links">
+            <a href="{{ github_url }}" target="_blank">GitHub</a>
+            <a href="{{ linkedin_url }}" target="_blank">LinkedIn</a>
+            <a href="mailto:{{ email }}">Email</a>
+        </div>
+
+        <div class="skills-section">
+            <h2>Technical Skills</h2>
+            <ul>
+                <li>Python & Django</li>
+                <li>Database Design</li>
+                <li>Web Development</li>
+                <li>Data Visualization</li>
+            </ul>
+        </div>
+
+        <div class="project-section">
+            <h2>About This Project</h2>
+            <p>This Recipe App demonstrates my ability to create full-stack applications using Django. It features user
+                authentication, database management, and interactive data visualization.</p>
+        </div>
+    </div>
+</body>
+
+</html>
