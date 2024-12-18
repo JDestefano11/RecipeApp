@@ -18,7 +18,7 @@ DEBUG = env('DEBUG')
 
 # Raises Django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'recipe-app-project-cf-d49f824444a1.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
