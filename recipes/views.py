@@ -69,17 +69,15 @@ def add_recipe(request):
         'difficulties': ['Easy', 'Medium', 'Hard']
     })
 
-@login_required(login_url='login')
 def recipe_search(request):
     results_df = None
     charts = None
+    recipes = Recipe.objects.all()
     
     if request.GET:
         query = request.GET.get('query', '')
         cooking_time = request.GET.get('cooking_time', '')
         difficulty = request.GET.get('difficulty', '')
-        
-        recipes = Recipe.objects.all()
         
         if query:
             recipes = recipes.filter(
@@ -93,18 +91,23 @@ def recipe_search(request):
         if difficulty:
             recipes = recipes.filter(difficulty=difficulty)
         
-        if recipes:
+        if recipes.exists():
             results_df = pd.DataFrame(list(recipes.values('id', 'name', 'cooking_time', 'difficulty')))
             results_df['ingredients_count'] = recipes.annotate(
                 ingredients_count=Count('ingredients')
             ).values_list('ingredients_count', flat=True)
             
             charts = generate_charts(recipes)
-    
-    return render(request, 'recipes/search.html', {
+
+    context = {
         'results_df': results_df,
-        'charts': charts
-    })
+        'charts': charts,
+        'query': request.GET.get('query', ''),
+        'cooking_time': request.GET.get('cooking_time', ''),
+        'difficulty': request.GET.get('difficulty', '')
+    }
+    
+    return render(request, 'recipes/search.html', context)
 
 @login_required(login_url='login')
 def ingredient_list(request):
