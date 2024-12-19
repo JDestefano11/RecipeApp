@@ -136,6 +136,27 @@
             color: var(--accent-color);
         }
 
+        .search-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-button:hover {
+            background-color: #1a252f;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 20px;
@@ -197,6 +218,9 @@
                 <li>Recipe categories for easy browsing</li>
             </ul>
         </div>
+
+        <!-- Button to navigate to the search page -->
+        <a href="{% url 'recipe-search' %}" class="search-button">Start Searching Recipes</a>
     </div>
 </body>
 

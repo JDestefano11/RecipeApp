@@ -143,6 +143,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             margin-bottom: 3rem;
+            padding: 1rem;
         }
 
         .search-results table {
@@ -180,47 +181,23 @@
             text-decoration: underline;
         }
 
-        .data-visualization {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .data-visualization h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .chart-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .chart-item {
-            text-align: center;
-        }
-
-        .chart-item img {
-            max-width: 100%;
-            height: auto;
+        .show-all-button {
+            display: inline-block;
+            margin: 1.5rem 0;
+            padding: 1rem 2rem;
+            background-color: #3b82f6;
+            color: white;
             border-radius: 8px;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .chart-item img:hover {
-            transform: scale(1.02);
-        }
-
-        .chart-title {
-            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            text-align: center;
             font-weight: 500;
-            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .show-all-button:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 768px) {
@@ -248,10 +225,6 @@
             .search-results td {
                 padding: 1rem 0.75rem;
             }
-
-            .chart-container {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -265,16 +238,14 @@
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                Search
+                </svg> Search
             </a>
             <a href="{% url 'logout' %}" class="auth-button logout-button">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
                     </path>
-                </svg>
-                Logout
+                </svg> Logout
             </a>
             {% else %}
             <a href="{% url 'login' %}" class="auth-button login-button">
@@ -282,8 +253,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
                     </path>
-                </svg>
-                Login
+                </svg> Login
             </a>
             {% endif %}
         </nav>
@@ -316,7 +286,7 @@
             <button type="submit">Search Recipes</button>
         </form>
 
-        {% if results_df is not None %}
+        {% if results_df %}
         <div class="search-results">
             <table>
                 <thead>
@@ -328,35 +298,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for index, row in results_df.iterrows %}
+                    {% for recipe in results_df %}
                     <tr>
-                        <td><a href="{% url 'recipe-detail' row.id %}">{{ row.name }}</a></td>
-                        <td>{{ row.cooking_time }} mins</td>
-                        <td>{{ row.difficulty }}</td>
-                        <td>{{ row.ingredients_count }}</td>
+                        <td><a href="{% url 'recipe-detail' recipe.id %}">{{ recipe.name }}</a></td>
+                        <td>{{ recipe.cooking_time }} mins</td>
+                        <td>{{ recipe.difficulty }}</td>
+                        <td>{{ recipe.ingredients_count }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <div class="data-visualization">
-            <h2>Recipe Analytics</h2>
-            <div class="chart-container">
-                <div class="chart-item">
-                    <img src="data:image/png;base64,{{ charts.bar_chart }}" alt="Recipe Difficulty Distribution">
-                    <p class="chart-title">Recipe Distribution by Difficulty</p>
-                </div>
-                <div class="chart-item">
-                    <img src="data:image/png;base64,{{ charts.pie_chart }}" alt="Recipe Categories">
-                    <p class="chart-title">Recipe Categories</p>
-                </div>
-                <div class="chart-item">
-                    <img src="data:image/png;base64,{{ charts.line_chart }}" alt="Cooking Time Distribution">
-                    <p class="chart-title">Cooking Time Analysis</p>
-                </div>
-            </div>
-        </div>
+        <a href="{% url 'recipe-list' %}" class="show-all-button">Show All Recipes</a>
+
         {% endif %}
     </div>
 </body>
